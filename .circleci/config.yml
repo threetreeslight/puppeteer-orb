@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/circleci-cli
+    steps:
+      - checkout
+      - run: circleci orb validate ./orb.yml
+
+  deploy:
+    docker:
+      - image: circleci/circleci-cli
+    steps:
+      - checkout
+      - run: circleci orb publish inc ./orb.yml threetreeslight/puppeteer minor
+
+workflows:
+  version: 2
+  validate:
+    jobs:
+      - build
