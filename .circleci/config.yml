@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  puppeteer: threetreeslight/puppeteer@0.1.2
 jobs:
   build:
     docker:
@@ -12,10 +14,26 @@ jobs:
       - image: circleci/circleci-cli
     steps:
       - checkout
-      - run: circleci orb publish inc ./orb.yml threetreeslight/puppeteer minor
+      - run: circleci orb publish inc ./orb.yml threetreeslight/puppeteer patch
+
+  test-orb:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - puppeteer/install
 
 workflows:
-  version: 2
-  validate:
+  version: 2.1
+  build:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: /^(?!test-orb)$/
+  test-orb:
+    jobs:
+      - test-orb:
+          filters:
+            branches:
+              only: test-orb
