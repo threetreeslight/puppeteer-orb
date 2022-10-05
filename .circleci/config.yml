@@ -22,6 +22,7 @@ jobs:
     steps:
       - checkout
       - puppeteer/install
+      - run: exit $(git diff | wc -l)
 
 workflows:
   version: 2.1
