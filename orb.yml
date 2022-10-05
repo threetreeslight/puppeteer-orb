@@ -21,4 +21,4 @@ commands:
     - run:
         name: Install puppeteer with chronium
         command: |
-          npm i puppeteer
+          npm ci puppeteer
